@@ -95,7 +95,7 @@ class AudioTranscriptionController extends Controller
     private function transcribeAudioWithCurl($base64Audio)
     {
         // API key Anda
-        $apiKey = 'AIzaSyBCA7RVM7U2vUAbeB4CEXani94SVhDlRlU'; // Ganti dengan API key Anda
+        $apiKey = env('GCP_API_KEY'); // Ganti dengan API key Anda
 
         // Data yang akan dikirim ke API
         $data = [
