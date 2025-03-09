@@ -41,13 +41,10 @@ class AudioTranscriptionController extends Controller
             $base64Audio = $this->encodeAudioToBase64($fullWavPath);
 
             // Transkripsi audio menggunakan Google Speech-to-Text API dengan cURL
-            $transcript = $this->transcribeAudioWithCurl($base64Audio);
+            $transcript = $this->transcribeAudio($base64Audio);
 
             // Summarize hasil transkripsi menggunakan Cohere
             $summary = $this->summarizeTranscript($transcript);
-
-            // Hapus file WAV (opsional)
-            Storage::disk('public')->delete($outputWavPath);
 
             // Kembalikan respons JSON
             return response()->json([
@@ -92,7 +89,7 @@ class AudioTranscriptionController extends Controller
         }
     }
 
-    private function transcribeAudioWithCurl($base64Audio)
+    private function transcribeAudio($base64Audio)
     {
         // API key Anda
         $apiKey = env('GCP_API_KEY'); // Ganti dengan API key Anda
@@ -141,7 +138,6 @@ class AudioTranscriptionController extends Controller
             throw new \Exception('Tidak ada hasil transkripsi. Respons API: ' . print_r($responseData, true));
         }
     }
-
 
     private function summarizeTranscript($transcript)
     {
